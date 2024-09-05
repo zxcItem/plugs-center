@@ -26,20 +26,12 @@ class Index extends Controller
      */
     public function index()
     {
+        $this->type = $this->get['type'] ?? 'module';
         // 读取有菜单的插件列表
-        $this->items = Plugin::getLocalPlugs('module', true);
+        $this->items = Plugin::getLocalPlugs($this->type, true);
         $this->codes = array_column($this->items, 'code');
         $this->default = sysdata('plugin.center.config')['default'] ?? '';
-        if ($this->request->get('from') !== 'force') {
-            // 检查默认插件并自动跳转
-            if (in_array($this->default, $this->codes)) {
-                return $this->openPlugin($this->default, '打开默认插件');
-            }
-            // 只有一个插件则自动进入插件
-            if (count($this->codes) === 1) {
-                return $this->openPlugin(array_pop($this->codes), '打开指定插件');
-            }
-        }
+        $this->typeList = Plugin::types;
         // 显示插件列表
         $this->fetch();
     }

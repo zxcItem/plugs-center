@@ -1,60 +1,61 @@
 {extend name='main'}
 
 {block name='content'}
-<div class="padding-5">
-    <div class="layui-row layui-col-space15">
-        {foreach :array_values($items) as $k=>$item}
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
-            <div class="shadow border-radius-6 ta-p-15 think-bg-white">
-                <div class="plugin-item">
-                    <div class="plugin-item-icon uploadimage shadow-none {:random_bgc($k)}" data-lazy-src="{$item.cover|default=''}" data-plugs-click="{$item.encode}">
-                        <div class="plugin-item-tags flex flex-between">
-                            <div class="layui-badge layui-bg-cyan">{$item.code|default=''}</div>
-                            {notempty name='item.version'}
-                            <div class="layui-badge think-bg-violet">{$item.version|default=''}</div>
-                            {/notempty}
-                        </div>
-                        <div class="plugin-item-name">
-                            <div class="layui-elip">{$item.name}</div>
-                        </div>
-                        <div class="plugin-item-desc">
-                            <div class="layui-elip">{$item.remark}</div>
+<div class="layui-tab layui-tab-card ">
+    <ul class="layui-tab-title">
+        {foreach $typeList as $k=>$v}{if isset($type) and $type eq $k}
+        <li class="layui-this" data-open="{:url('index')}?type={$k}">{$v}</li>
+        {else}
+        <li data-open="{:url('index')}?type={$k}">{$v}</li>
+        {/if}{/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-row layui-col-space15">
+            {foreach :array_values($items) as $k=>$item}
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+                <div class="shadow border-radius-6 ta-p-15 think-bg-white">
+                    <div class="plugin-item">
+                        <div class="plugin-item-icon uploadimage shadow-none {:random_bgc($k)}" data-lazy-src="{$item.cover|default=''}" data-href="{$item.center}">
+                            <div class="plugin-item-tags flex flex-between">
+                                <div class="layui-badge layui-bg-cyan">{$item.code|default=''}</div>
+                                {notempty name='item.version'}
+                                <div class="layui-badge think-bg-violet">{$item.version|default=''}</div>
+                                {/notempty}
+                            </div>
+                            <div class="plugin-item-name">
+                                <div class="layui-elip">{$item.name}</div>
+                            </div>
+                            <div class="plugin-item-desc">
+                                <div class="layui-elip">{$item.remark}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="margin-top-10 flex-between">
-                    {notempty name='item.plugmenus'}
-                    <a class="layui-btn layui-btn-sm" id="p{$item.encode}" data-href="{$item.center}">管理插件</a>
-                    {if auth('setdefault') and isset($default) and $default eq $item.code}
-                    <a class="layui-btn layui-btn-sm layui-btn-normal" data-action="{:url('setdefault')}" data-value="default#0">取消默认</a>
-                    {elseif auth('setdefault')}
-                    <a class="layui-btn layui-btn-sm layui-btn-primary" data-action="{:url('setdefault')}" data-value="default#{$item.code}">设为默认</a>
-                    {/if}
-                    {else}
-                    <a class="layui-btn layui-btn-sm layui-btn-disabled">未配置菜单</a>
-                    {/notempty}
-                </div>
             </div>
+            {/foreach}
+            {empty name='items'}
+            <div>
+                <div class="notdata">无记录</div>
+            </div>
+            {/empty}
         </div>
-        {/foreach}
-        {empty name='items'}
-        <div>
-            <div class="notdata">无记录</div>
-        </div>
-        {/empty}
     </div>
 </div>
 {/block}
 
 {block name='style'}
 <style>
+    .layui-tab-content{
+        height: calc( 100vh - 200px);
+        overflow-y: auto;
+    }
     .plugin-item:hover .uploadimage {
         background-position: 0 0 !important;
     }
 
     .plugin-item-icon {
         width: 100%;
-        padding-top: 30%;
+        padding-top: 15%;
         margin-bottom: 0;
     }
 
@@ -93,12 +94,4 @@
         box-shadow: 1px 1px 2px 0 rgba(50, 50, 54, 0.5);
     }
 </style>
-
-<script>
-    $(function () {
-        $('body').off('click', '[data-plugs-click]').on('click', '[data-plugs-click]', function () {
-            $('#p' + (this.dataset.plugsClick || 'plugin-encode')).trigger('click');
-        });
-    });
-</script>
 {/block}
