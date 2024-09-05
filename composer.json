@@ -9,16 +9,22 @@
         }
     ],
     "require": {
-        "php": ">7.1"
+        "php": ">7.1",
+        "ext-json": "*",
+        "zoujingli/think-install": "^1.0|@dev",
+        "zoujingli/think-library": "^6.1|@dev"
     },
     "autoload": {
+        "files": [
+            "src/helper.php"
+        ],
         "psr-4": {
             "plugin\\center\\": "src"
         }
     },
     "extra": {
         "config": {
-            "type": "plugin",
+            "type": "service",
             "name": "应用中心"
         },
         "think": {
