@@ -1,0 +1,41 @@
+{
+    "type": "think-admin-plugin",
+    "name": "xiaochao/plugs-center",
+    "version": "dev-master",
+    "authors": [
+        {
+            "name": "叶落无痕",
+            "email": "zxcaile@foxmail.com"
+        }
+    ],
+    "require": {
+        "php": ">7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "plugin\\center\\": "src"
+        }
+    },
+    "extra": {
+        "config": {
+            "type": "plugin",
+            "name": "应用中心"
+        },
+        "think": {
+            "services": [
+                "plugin\\center\\Service"
+            ]
+        },
+        "plugin": {
+            "copy": {
+                "stc/database": "database/migrations"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "zoujingli/think-install": true
+        }
+    }
+}
