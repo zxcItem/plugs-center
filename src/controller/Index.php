@@ -30,6 +30,7 @@ class Index extends Controller
         // 读取有菜单的插件列表
         $this->items = Plugin::getLocalPlugs($this->type, true);
         $this->codes = array_column($this->items, 'code');
+        $this->total = array_count_values(array_column(Plugin::getLocalPlugs(null, true), 'type'));
         $this->default = sysdata('plugin.center.config')['default'] ?? '';
         $this->typeList = Plugin::types;
         // 显示插件列表
@@ -81,7 +82,6 @@ class Index extends Controller
                 unset($menus[$k1]);
             }
         }
-
         /*! 读取当前用户权限菜单树 */
         $this->menus = [
             [
@@ -98,7 +98,7 @@ class Index extends Controller
                 'id'    => 9999999,
                 'url'   => admuri('index/index', ['from' => 'force']),
                 'node'  => 'plugin-center/index/index',
-                'title' => '返回首页'
+                'title' => '返回应用中心'
             ];
         }
         $this->super = AdminService::isSuper();
