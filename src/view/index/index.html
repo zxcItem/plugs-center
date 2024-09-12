@@ -1,16 +1,12 @@
 {extend name='table'}
 
 {block name="button"}
-<!--{if auth("project")}-->
-<button class='layui-btn layui-btn-sm layui-btn-primary' data-modal="{:url('project')}" data-width="1300px" >营销工具管理</button>
-<!--{/if}-->
 
 {/block}
 {block name="style"}
 <style>
     .layui-tab-content{
         height: calc( 100vh - 200px);
-        overflow-y: auto;
     }
     .marketing-box{
         height: 47px;
@@ -35,9 +31,9 @@
         <div class="padding-10">
             <div class="layui-row layui-col-space30">
                 {foreach :array_values($items) as $k=>$item}
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-lg3">
+                <div class="layui-col-xs3">
                     <div class="marketing-box border-radius-5 pointer padding-15" data-href="{$item.center}">
-                        <div class="layui-row layui-col-space15">
+                        <div class="layui-col-space30 ">
                             <div class="layui-col-xs2">
                                 <div class="margin-top-10">
                                     <i class="{$item.cover} color-desc font-s40 text-center"></i>
